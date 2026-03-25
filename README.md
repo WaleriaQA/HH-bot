@@ -47,7 +47,8 @@ job link
 - Clicks "Apply" button if available
 - Moves to the next page and repeats
 
-
+Run the bot
+node index.js
 
 Stop the bot
 Press: Ctrl + C
