@@ -16,8 +16,13 @@ function randomDelay(min = 2000, max = 5000) {
   const pages = await browser.pages();
   const page = pages[0];
 
+  page.setDefaultNavigationTimeout(60000);
+
   // 👉 ВАЖНО: открываем ТОЛЬКО ОДИН РАЗ
-  await page.goto("https://hh.ru/search/vacancy?text=JavaScript");
+  await page.goto("https://hh.ru/search/vacancy?text=JavaScript", {
+    waitUntil: "domcontentloaded",
+    timeout: 60000
+  });
   await randomDelay();
 
   let currentPage = 1;
@@ -69,7 +74,10 @@ function randomDelay(min = 2000, max = 5000) {
 
       console.log("Открываем:", job.title);
 
-      await page.goto(job.link, { waitUntil: "domcontentloaded" });
+      await page.goto(job.link, { 
+        waitUntil: "domcontentloaded",
+        timeout: 60000
+       });
       await randomDelay();
 
       let description = "";
@@ -134,14 +142,13 @@ function randomDelay(min = 2000, max = 5000) {
         } else {
           console.log("Кнопка отклика не найдена (или нельзя откликнуться)");
         }
-
-        if (applyButton) {
-          await applyButton.click();
-          console.log("Кликнули Откликнуться!");
-          await randomDelay(2000, 4000);
-        } else {
-          console.log("Кнопка отклика не найдена.");
-        }
+if (applyButton) {
+  await applyButton.click();
+  console.log("Кликнули Откликнуться!");
+  await randomDelay(2000, 4000);
+} else {
+  console.log("Кнопка отклика не найдена.");
+}
       }
 
       // 👉 возвращаемся назад к списку
